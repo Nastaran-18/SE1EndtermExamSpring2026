@@ -1,0 +1,24 @@
+name: CD - Build Docker image
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image
+        working-directory: 40231453
+        run: |
+          docker build -t streaming-app:${{ github.sha }} -t streaming-app:latest .
+
+      - name: List built images
+        run: docker images | grep streaming-app
