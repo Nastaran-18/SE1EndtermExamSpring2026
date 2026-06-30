@@ -36,11 +36,8 @@ jobs:
           coverage json -o coverage.json
           python3 scripts/coverage_to_csv.py coverage.json coverage.csv
 
-      - name: Commit coverage report
-        working-directory: 40231453
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add coverage.csv
-          git diff --cached --quiet || git commit -m "ci: update coverage.csv [skip ci]"
-          git push
+      - name: Upload coverage report
+  uses: actions/upload-artifact@v4
+  with:
+    name: coverage-report
+    path: 40231453/coverage.csv
